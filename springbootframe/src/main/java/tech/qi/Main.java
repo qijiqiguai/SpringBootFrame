@@ -3,6 +3,7 @@ package tech.qi;
 import org.apache.catalina.connector.Connector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
@@ -14,9 +15,10 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.event.ContextClosedEvent;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import org.springframework.scheduling.annotation.AsyncConfigurer;
+
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  *
@@ -25,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  */
 @ComponentScan(basePackages = {"tech.qi"})
 @SpringBootApplication
-public class Main {
+public class Main implements AsyncConfigurer {
     private static final Logger logger = LoggerFactory.getLogger(GracefulShutdown.class);
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(Main.class, args);
@@ -38,8 +40,30 @@ public class Main {
         }));
     }
 
+    @Override
+    public Executor getAsyncExecutor() {
+        ThreadFactory namedFactory = new ThreadFactory() {
+            AtomicInteger counter = new AtomicInteger();
+            @Override
+            public Thread newThread(Runnable r) {
+                Thread thread = new Thread(r);
+                thread.setName("Async-Runner-" + counter.addAndGet(1));
+                return thread;
+            }
+        };
+        ExecutorService executorService = new ThreadPoolExecutor(
+                10, Runtime.getRuntime().availableProcessors() * 2, 0L, TimeUnit.MILLISECONDS,
+                new LinkedBlockingDeque<>(200), namedFactory, new ThreadPoolExecutor.AbortPolicy());
+        return executorService;
+    }
+
+    @Override
+    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
+        return null;
+    }
+
     /**
-     * 优雅停机：用于接受shutdown事件
+     * 优雅停机：ApplicationListener，用于接受shutdown事件
      * @return
      */
     @Bean

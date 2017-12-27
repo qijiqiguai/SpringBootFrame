@@ -12,6 +12,9 @@ import java.util.Enumeration;
 import java.util.Properties;
 
 
+/**
+ * @author wangqi
+ */
 public class IPAddressUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(IPAddressUtil.class);

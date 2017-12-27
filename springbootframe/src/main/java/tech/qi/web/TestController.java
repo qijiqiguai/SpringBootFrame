@@ -22,14 +22,14 @@ public class TestController {
         System.out.println( Thread.currentThread().getName()
                 + " -> " + this + " Get one, got: " + started.addAndGet(1) );
         try {
-            Thread.sleep( 1000*10);
+            Thread.sleep( 1000*1);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         System.out.println( Thread.currentThread().getName()
                 + " -> " + this + "  Finish one, finished: " + ended.addAndGet(1) );
-        return "redirect:/hello";
+        return "hello world";
     }
 
 }
