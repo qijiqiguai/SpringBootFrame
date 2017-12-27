@@ -58,10 +58,6 @@ public class UserService {
         return userRepository.findAll(pageable);
     }
 
-    public Page<User> findByReferenceId(Long referenceId, Pageable pageable) {
-        return userRepository.findByReferenceId(referenceId, pageable);
-    }
-
     public User getUser(Long userId) {
         return userRepository.findOne(userId);
     }
@@ -76,10 +72,6 @@ public class UserService {
 
     public void delete(User user) {
         userRepository.delete(user);
-    }
-
-    public long countByCreatedDateBetween(Date startDate, Date endDate) {
-        return userRepository.countByCreatedDateBetween(startDate, endDate);
     }
 
 

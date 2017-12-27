@@ -1,6 +1,7 @@
 package tech.qi.conf;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -9,8 +10,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import tech.qi.core.Constants;
-import tech.qi.dal.repository.UserRepository;
+import tech.qi.dal.UserDetailsServiceImpl;
 
 
 
@@ -19,13 +21,20 @@ import tech.qi.dal.repository.UserRepository;
  */
 @Configuration
 class SecurityConfig {
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Configuration
     @Order(Ordered.LOWEST_PRECEDENCE - 90)
     protected static class UserAuthenticationConfig extends WebSecurityConfigurerAdapter {
 
         @Autowired
-        UserRepository userRepository;
+        PasswordEncoder passwordEncoder;
+
+        @Autowired
+        UserDetailsServiceImpl userDetailsService;
 
         @Autowired
         RestAuthenticationSuccessHandler restAuthenticationSuccessHandler;
@@ -51,11 +60,11 @@ class SecurityConfig {
         protected void configure(HttpSecurity http) throws Exception {
             http.csrf().disable()
                     .authorizeRequests()
-                        .antMatchers("/webview/pub/**").permitAll()
-                        .antMatchers("/api/v1/order/**", "/api/v1/student/**").hasRole(Constants.USER_ROLE_STUDENT)
+                        // AntMatcher 是按照从前到后的顺序来进行匹配的
+                        .antMatchers("/pub/**").permitAll()
                         .antMatchers("/api/v1/file/**", "/api/v1/auth/password/change", "/api/v2/auth/password/change").hasRole(Constants.SPRING_SECURITY_USER_ROLE)
-                        .antMatchers("/api/v1/auth/**").permitAll() //Put this here is on purpose: AntMatcher apply rule in order
-                        .antMatchers("/api/v2/auth/**").permitAll() //Put this here is on purpose: AntMatcher apply rule in order
+                        .antMatchers("/api/v1/auth/**").permitAll()
+                        .antMatchers("/api/v2/auth/**").permitAll()
                     .anyRequest().authenticated()
                     .and()
                     .exceptionHandling()
@@ -75,8 +84,7 @@ class SecurityConfig {
 
         @Override
         public void configure(AuthenticationManagerBuilder auth) throws Exception {
-            auth.userDetailsService(userRepository)
-                    .passwordEncoder(new BCryptPasswordEncoder());
+            auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
         }
     }
 

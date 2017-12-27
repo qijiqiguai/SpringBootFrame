@@ -15,7 +15,7 @@ public class TestController {
     public AtomicInteger started = new AtomicInteger();
     public AtomicInteger ended = new AtomicInteger();
 
-    @RequestMapping("/graceful_shutdown_test")
+    @RequestMapping("/pub/graceful_shutdown_test")
     @ResponseBody
     public String shutdown() {
 
