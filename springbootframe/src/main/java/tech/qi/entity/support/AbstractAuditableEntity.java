@@ -16,6 +16,7 @@ import java.util.Date;
  * Only CreatedDate is not @JsonIgnore ed
  *
  * @author wangqi
+ *
  * @JsonIdentityInfo(property = "id", generator = ObjectIdGenerators.PropertyGenerator.class)
  */
 @MappedSuperclass

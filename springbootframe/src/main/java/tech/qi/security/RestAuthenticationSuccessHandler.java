@@ -1,4 +1,4 @@
-package tech.qi.conf;
+package tech.qi.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +22,8 @@ import java.io.IOException;
 public class RestAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     public RestAuthenticationSuccessHandler() {
-        super("/api/v2/auth/refresh");
+        // 指定登陆成功之后重定向的路径
+        super("/api/v1/auth/refresh");
     }
 
     @Autowired
@@ -39,25 +40,16 @@ public class RestAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
 
         String clientId = request.getParameter("clientId");
         String deviceToken = request.getParameter("deviceToken");
-        String idfa = request.getParameter("idfa");
         String deviceTypeParam = request.getParameter("deviceType");
-        int userType = Integer.parseInt(request.getParameter("userType"));
-
         //Override server.session-timeout for Rest Login
         request.getSession().setMaxInactiveInterval(restSessionTimeout);
 
-        if (!validUserTypeAndTryBindClient(user, userType, deviceTypeParam, clientId, deviceToken)) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return;
-        }
-
-        userService.userLogin(request, user,clientId, deviceToken, idfa, deviceTypeParam, userType);
+        userService.userLogin(request, user,clientId, deviceToken, deviceTypeParam);
 
         super.onAuthenticationSuccess(request, response, authentication);
     }
 
     private boolean validUserTypeAndTryBindClient(User user, int userType, String deviceTypeParam, String clientId, String deviceToken) {
-
         return false;
     }
 }

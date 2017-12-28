@@ -1,14 +1,16 @@
-package tech.qi.conf;
+package tech.qi.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 import org.springframework.stereotype.Component;
+import tech.qi.core.ServiceException;
 import tech.qi.entity.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 
 /**
@@ -33,15 +35,15 @@ public class RestSuccessLogoutHandler extends SimpleUrlLogoutSuccessHandler {
         String clientId = request.getParameter("clientId");
         String deviceToken = request.getParameter("deviceToken");
         String deviceTypeParam = request.getParameter("deviceType");
-        int userType = Integer.parseInt(request.getParameter("userType"));
-
         if (authentication != null && authentication.getPrincipal() != null) {
             User user = (User) authentication.getPrincipal();
-            tryUnBindClient(user,userType,deviceTypeParam,clientId,deviceToken);
+        }else {
+            throw new ServiceException("No logged in yet, no need logout...");
         }
-
         response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().flush();
+        PrintWriter writer = response.getWriter();
+        writer.write("Logout OK");
+        writer.flush();
     }
 
     private void tryUnBindClient(User user,int userType,String deviceTypeParam,String clientId,String deviceToken) {

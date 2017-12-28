@@ -98,10 +98,6 @@ public class UserService {
 
         //set user role as default role
         Set<Role> roles = new HashSet<>();
-
-        Long roleID = Constants.USER_ROLE_STUDENT_ID;
-
-        roles.add(roleRepository.findOne(roleID));
         user.setRoles(roles);
         user = userRepository.save(user);
         return user;
@@ -219,17 +215,14 @@ public class UserService {
      * @param request
      * @param clientId
      * @param deviceToken
-     * @param idfa
      * @param deviceTypeParam
-     * @param userType
      */
-    public void userLogin(HttpServletRequest request, User user, String clientId, String deviceToken, String idfa, String deviceTypeParam, int userType) {
+    public void userLogin(HttpServletRequest request, User user, String clientId, String deviceToken, String deviceTypeParam) {
         UserLogin userLogin = new UserLogin();
         userLogin.setLastLoginIp(IPAddressUtil.getClientIP(request));
         userLogin.setClientId(clientId);
         userLogin.setDeviceToken(deviceToken);
         userLogin.setDeviceType(deviceTypeParam);
-        userLogin.setUserType(userType);
         userLogin.setUser(user);
         baseRepository.save(userLogin);
     }

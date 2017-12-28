@@ -1,6 +1,7 @@
 package tech.qi.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -79,11 +80,15 @@ public class User extends AbstractAuditableEntity implements UserDetails {
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new HashSet<>();
+
         authorities.addAll(getRoles());
         authorities.addAll(getPermissions());
+
+        // 默认增加一个权限
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(
                 Constants.SPRING_SECURITY_ROLE_PREFIX + Constants.SPRING_SECURITY_USER_ROLE);
         authorities.add(authority);
+
         return authorities;
     }
 
@@ -184,7 +189,6 @@ public class User extends AbstractAuditableEntity implements UserDetails {
         this.phone = phone;
     }
 
-    //  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     public Set<Role> getRoles() {
         return roles;
     }
