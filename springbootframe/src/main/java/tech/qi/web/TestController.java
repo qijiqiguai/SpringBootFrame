@@ -1,11 +1,17 @@
 package tech.qi.web;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import tech.qi.core.ServiceException;
-import tech.qi.security.RequestLimit;
+import tech.qi.core.security.RequestLimit;
+import tech.qi.entity.support.View;
+import tech.qi.web.support.JsonTestEntity;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -53,4 +59,36 @@ public class TestController {
         return "Common API";
     }
 
+
+    @JsonView(View.Common.Summary.class)
+    @RequestMapping(value = "/pub/json_common_summary", method = RequestMethod.GET)
+    public Map<String, Object> jsonCommonSummary() {
+        Map<String, Object> map = new HashMap<>(1);
+        map.put("json", new JsonTestEntity());
+        return map;
+    }
+
+    @JsonView({View.Common.Detail.class})
+    @RequestMapping(value = "/pub/json_common_detail", method = RequestMethod.GET)
+    public Map<String, Object> jsonCommonDetail() {
+        Map<String, Object> map = new HashMap<>(1);
+        map.put("json", new JsonTestEntity());
+        return map;
+    }
+
+    @JsonView(View.Admin.Summary.class)
+    @RequestMapping(value = "/pub/json_admin_summary", method = RequestMethod.GET)
+    public Map<String, Object> jsonAdminSummary() {
+        Map<String, Object> map = new HashMap<>(1);
+        map.put("json", new JsonTestEntity());
+        return map;
+    }
+
+    @JsonView(View.Admin.Detail.class)
+    @RequestMapping(value = "/pub/json_admin_detail", method = RequestMethod.GET)
+    public Map<String, Object> jsonAdminDetail() {
+        Map<String, Object> map = new HashMap<>(1);
+        map.put("json", new JsonTestEntity());
+        return map;
+    }
 }

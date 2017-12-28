@@ -1,4 +1,4 @@
-package tech.qi.security;
+package tech.qi.core.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

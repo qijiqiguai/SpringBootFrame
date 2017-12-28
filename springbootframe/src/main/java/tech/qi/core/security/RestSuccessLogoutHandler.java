@@ -1,4 +1,4 @@
-package tech.qi.security;
+package tech.qi.core.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;

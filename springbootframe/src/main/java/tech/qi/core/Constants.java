@@ -16,4 +16,9 @@ public class Constants {
     public final static String REST_STATUS_KEY = "status";
     public final static String REST_MESSAGE_KEY = "message";
     public final static String REST_DATA_KEY = "data";
+
+
+    public final static String HASHID_SALT = "WsdYo";
+    public final static int HASHID_MIN_LENGTH = 4;
+    public final static String HASHID_ALPHABET = "abcdefghijklmnpqrstuvwxyz";
 }

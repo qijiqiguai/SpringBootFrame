@@ -1,4 +1,4 @@
-package tech.qi.security;
+package tech.qi.core.security;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;

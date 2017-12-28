@@ -1,4 +1,4 @@
-package tech.qi.security;
+package tech.qi.core.security;
 
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;

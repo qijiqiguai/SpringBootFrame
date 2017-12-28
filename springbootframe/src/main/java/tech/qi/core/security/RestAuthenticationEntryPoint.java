@@ -1,4 +1,4 @@
-package tech.qi.security;
+package tech.qi.core.security;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

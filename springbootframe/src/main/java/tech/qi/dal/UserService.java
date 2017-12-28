@@ -27,6 +27,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 
+/**
+ * 任何数据访问都应该经过Service，而不是直接依赖于Repository，以后不会直接利用JPA来直接获取数据的，初期用于加快开发，但是JPA执行效率太差。
+ *
+ * @author wangqi
+ */
 @Service
 @CacheConfig(cacheNames = "users")
 public class UserService {
@@ -36,9 +41,6 @@ public class UserService {
 
     @Autowired
     private BaseRepository baseRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;

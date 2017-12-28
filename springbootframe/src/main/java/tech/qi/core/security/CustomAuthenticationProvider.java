@@ -1,4 +1,4 @@
-package tech.qi.security;
+package tech.qi.core.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import tech.qi.dal.repository.UserRepository;
+import tech.qi.dal.UserService;
 import tech.qi.entity.User;
 
 /**
@@ -23,7 +23,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomAuthenticationProvider.class);
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -31,7 +31,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String name = authentication.getName();
         String password = authentication.getCredentials().toString();
-        User user = userRepository.findByUsername(name);
+        User user = userService.getUserByName(name);
         if (user != null) {
             boolean match = passwordEncoder.matches(password, user.getPassword());
             if( match ){
