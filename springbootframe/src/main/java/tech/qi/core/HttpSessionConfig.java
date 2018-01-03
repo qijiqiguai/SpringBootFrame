@@ -11,6 +11,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
  */
 @EnableRedisHttpSession(redisNamespace = Constants.REDIS_SESSION_NAME)
 public class HttpSessionConfig {
+
     @Primary
     @Bean
     public RedisOperationsSessionRepository sessionRepository(RedisConnectionFactory redisConnectionFactory) {
@@ -18,4 +19,5 @@ public class HttpSessionConfig {
                 new RedisOperationsSessionRepository(redisConnectionFactory);
         return sessionRepository;
     }
+
 }

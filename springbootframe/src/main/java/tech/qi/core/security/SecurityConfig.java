@@ -65,6 +65,7 @@ class SecurityConfig {
                     .authorizeRequests()
                         // AntMatcher 是按照从前到后的顺序来进行匹配的
                         .antMatchers("/pub/**").permitAll()
+                        .antMatchers("/druid/**").permitAll()
                         .antMatchers("/api/v1/auth/**").permitAll()
                         .antMatchers("/api/v1/**").hasRole(Constants.SPRING_SECURITY_BUYER_ROLE)
                         .anyRequest().authenticated()

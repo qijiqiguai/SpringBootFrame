@@ -14,3 +14,15 @@ INSERT INTO frame_dev.`user_role`
 (user_id,role_id)
 VALUES
 (1,1);
+
+
+INSERT INTO frame_dev.`permission` (id,version,description,display_name,name) VALUES (1,1,'p01','p01','p01');
+INSERT INTO frame_dev.`permission` (id,version,description,display_name,name) VALUES (2,1,'p02','p02','p02');
+INSERT INTO frame_dev.`permission` (id,version,description,display_name,name) VALUES (3,1,'p03','p03','p03');
+INSERT INTO frame_dev.`permission` (id,version,description,display_name,name) VALUES (4,1,'p04','p04','p04');
+INSERT INTO frame_dev.`permission` (id,version,description,display_name,name) VALUES (5,1,'p05','p05','p05');
+INSERT INTO frame_dev.`permission` (id,version,description,display_name,name) VALUES (6,1,'p06','p06','p06');
+INSERT INTO frame_dev.`permission` (id,version,description,display_name,name) VALUES (7,1,'p07','p07','p07');
+INSERT INTO frame_dev.`permission` (id,version,description,display_name,name) VALUES (8,1,'p08','p08','p08');
+INSERT INTO frame_dev.`permission` (id,version,description,display_name,name) VALUES (9,1,'p09','p09','p09');
+INSERT INTO frame_dev.`permission` (id,version,description,display_name,name) VALUES (10,1,'p10','p10','p10');

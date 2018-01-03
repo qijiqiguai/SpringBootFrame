@@ -5,7 +5,7 @@ import org.springframework.data.annotation.PersistenceConstructor;
 import java.io.Serializable;
 
 /**
- * @author qiwang
+ * @author wangqi
  */
 public class TimeSerialStatistics implements Serializable {
     private static final long serialVersionUID = 3683794288562215569L;

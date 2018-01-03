@@ -19,13 +19,16 @@ public class Permission extends AbstractAuditableEntity implements GrantedAuthor
     private String name;
     private String displayName;
     private String description;
+
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id", referencedColumnName = "id")
     private Permission parent;
+
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "parent", fetch = FetchType.LAZY)
-    private Set<Permission> children = new LinkedHashSet<Permission>();
+    private Set<Permission> children = new LinkedHashSet<>();
+
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "permissions", fetch = FetchType.LAZY)
-    private Set<Role> roles = new LinkedHashSet<Role>();
+    private Set<Role> roles = new LinkedHashSet<>();
 
 
     public String getName() {

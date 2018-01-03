@@ -9,7 +9,7 @@ public class Constants {
     public final static String SPRING_SECURITY_ROLE_PREFIX = "ROLE_";
     public final static String SPRING_SECURITY_USER_ROLE = "USER";
     public final static String SPRING_SECURITY_BUYER_ROLE = "BUYER";
-    public final static String REDIS_SESSION_NAME = "Session:";
+    public final static String REDIS_SESSION_NAME = "Distributed-Session:";
 
     public final static int DEFAULT_EXCEPTION = -1;
 
